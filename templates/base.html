@@ -1,0 +1,49 @@
+{% load static tailwind_tags %}
+<html>
+  <head>
+    {% tailwind_css %}
+    <title>Zig-Zag Blogger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body style="font-family: 'Montserrat', sans-serif">
+    <!-- navbar start here -->
+    <nav>
+      <div class="flex justify-between max-w-[1200px] mx-auto py-8">
+        <div>
+          <h1 class="text-4xl font-bold">Zig-Zag Blogger</h1>
+        </div>
+        <div>
+          <ul class="flex">
+            <li class="text-xl font-bold mx-3">
+              <a href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="text-xl font-bold mx-3"><a href="">About</a></li>
+            <li class="text-xl font-bold mx-3">
+              <a href="{% url 'add_post' %}">Add Post</a>
+            </li>
+            <li class="text-xl font-bold mx-3">
+              <a href="{% url 'add_author' %}">Add Author</a>
+            </li>
+            <li class="text-xl font-bold mx-3">
+              <a href="{% url 'add_profile' %}">Add Profile</a>
+            </li>
+            <li class="text-xl font-bold mx-3">
+              <a href="{% url 'add_category' %}">Add Category</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    {% block content %} {% endblock %}
+
+    <!-- footer started here -->
+    <footer class="text-center text-xl font-medium my-12">
+      <p>All &copy; copyright reserved by Zig-Zag Blogger</p>
+    </footer>
+  </body>
+</html>
