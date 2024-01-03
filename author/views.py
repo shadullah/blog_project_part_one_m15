@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from . import forms
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate,login
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.contrib.auth import authenticate,login,update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -44,7 +44,20 @@ def profile(req):
         if profile_form.is_valid():
             messages.success(req, 'profile updated successfully')
             profile_form.save()
-            return redirect('register')
+            return redirect('profile')
     else:
         profile_form = forms.RegForm(instance=req.user)
     return render(req, 'profile.html',{'form': profile_form})
+
+
+def pass_change(req):
+    if req.method == 'POST':
+        passcngForm = PasswordChangeForm( req.user ,data=req.POST)
+        if passcngForm.is_valid():
+            messages.success(req, 'Pssword changed successfully')
+            update_session_auth_hash(req, passcngForm.user)
+            passcngForm.save()
+            return redirect('profile')
+    else:
+        passcngForm = PasswordChangeForm(user=req.user)
+    return render(req, 'pass_change.html',{'form': passcngForm})
