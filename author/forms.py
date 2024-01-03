@@ -18,5 +18,11 @@ class RegForm(UserCreationForm):
 class changUserInfo(UserChangeForm):
     password = None
     class Meta:
-        model = User
-        fields = ['username', 'first_name', 'last_name','email']
+        model = User 
+        fields =['username', 'first_name', 'last_name', 'email']
+
+# class changUserInfo(UserChangeForm):
+#     password = None
+#     class Meta:
+#         model = User
+#         fields = ['username', 'first_name', 'last_name','email']

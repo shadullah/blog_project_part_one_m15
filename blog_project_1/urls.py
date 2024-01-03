@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', include('blogApp_part_one.urls')),
     path('', views.home, name='home'),
+    path('category/<slug:category_slug>/', views.home, name='category_wise'),
     path('author/', include('author.urls')),
     path('post/', include('posts.urls')),
     path('category/', include('categories.urls'))

@@ -1,5 +1,7 @@
-{% extends "base.html" %} {% load tailwind_filters %} {% load crispy_forms_tags
-%} {% block content %}
+{% extends "base.html" %} 
+{% load tailwind_filters %} 
+{% load crispy_forms_tags %} 
+{% block content %}
 <h1 class="text-2xl text-center mx-auto font-medium border-b-4 w-40">
   Edit Your Profile
 </h1>
@@ -13,19 +15,25 @@
 <div></div>
 
 <form class="mx-auto w-1/2" method="post">
-  {% csrf_token %} {% for fm in form %} {{fm.label_tag}}
+  {% csrf_token %} 
+  <!-- {{form|crispy}} -->
+  {% for fm in form %} 
+  {{fm.label_tag}}
   <br />
   {{fm}}
   <br />
-  {{fm.errors | striptags}} {%endfor %}
+  {{fm.errors | striptags}} 
+  {% endfor %}
   <br />
 
   <button class="bg-black px-3 py-2 text-white font-bold rounded-lg my-3">
     Submit
   </button>
-  {% if form.non_field_errors %} {% for err in form.non_field_errors %}
+  {% if form.non_field_errors %} 
+  {% for err in form.non_field_errors %}
   <small>{{err}}</small>
-  {% endfor %} {% endif %}
+  {% endfor %} 
+  {% endif %}
 </form>
 
 {% endblock %}

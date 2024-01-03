@@ -15,10 +15,14 @@
     <nav>
       <div class="flex justify-between max-w-[1200px] mx-auto py-8">
         <div>
-          <h1 class="text-4xl font-bold">Zig-Zag Blogger</h1>
+          <h1
+            class="text-2xl md:text-3xl lg:text-4xl font-bold whitespace-nowrap"
+          >
+            Zig-Zag Blogger
+          </h1>
         </div>
         <div>
-          <ul class="flex">
+          <ul class="flex items-center">
             <li class="text-xl font-bold mx-3">
               <a href="{% url 'home' %}">Home</a>
             </li>
@@ -27,11 +31,11 @@
             <li class="text-xl font-bold mx-3">
               <a href="{% url 'add_post' %}">Add Post</a>
             </li>
-            {% endif %}
+            {% endif %} {% comment %}
             <li class="text-xl font-bold mx-3">
               <a href="{% url 'add_category' %}">Add Category</a>
             </li>
-            {% if user.is_authenticated %}
+            {% endcomment %} {% if user.is_authenticated %}
             <li class="text-xl font-bold mx-3 bg-lime-500 rounded-lg px-3 py-2">
               <a href="{% url 'profile' %}">Profile</a>
             </li>
