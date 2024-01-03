@@ -7,28 +7,54 @@
 </h1>
 
 <div class="text-center">
-    <button class="bg-orange-600 px-3 py-2 rounded-lg my-2"><a href="{% url 'passchange' %}">Change password</a></button>
+    <button class="bg-orange-600 px-3 py-2 rounded-lg my-2"><a href="{% url 'edit_profile' %}">Edit Profile</a></button>
 </div>
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 my-12 mx-12">
+    {% for i in data %}
+    <div class="rounded-lg mx-5">
+      <div class="p-5">
+        <a href="#">
+          <h5
+            class="mb-2 text-center text-2xl font-bold tracking-tight text-gray-800"
+          >
+            {{i.title}}
+          </h5>
+        </a>
+        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          {{i.content|slice:":200"}}
+        </p>
+        {% comment %} <p>AUthorL: {{i.author.first_name}}  {{i.author.last_name}}</p> {% endcomment %}        
+        <h1
+          class="mb-2 text-center text-xl font-bold tracking-tight text-gray-900"
+        >
+          Author: {{i.author.first_name}} {{i.author.last_name}}
+        </h1>
+        <p>
+          Category: {% for cat in i.category.all %}
+          <a
+            href="#"
+            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-500 m-2"
+          >
+            {{cat.name}}
+          </a>
+          {% endfor %}
+        </p>
+        <button
+          type="button"
+          class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+        >
+          <a href="{% url "edit_post" i.id %}">Edit</a>
+        </button>
+        <button
+          type="button"
+          class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+        >
+        <a href="{% url "delete_post" i.id %}">Delete</a>
+        </button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 
-<form class="mx-auto w-1/2" method="post">
-  {% csrf_token %} 
-  {% for fm in form %} 
-  {{fm.label_tag}} 
-  <br>
-  {{fm}} 
-  <br>
-  {{fm.errors | striptags}} 
-  {%endfor %}
-  <br />
-
-  <button class="bg-black px-3 py-2 text-white font-bold rounded-lg my-3">
-    Submit
-  </button>
-  {% if form.non_field_errors %} 
-  {% for err in form.non_field_errors %}
-  <small>{{err}}</small>
-  {% endfor %} 
-  {% endif %}
-</form>
 
 {% endblock %}

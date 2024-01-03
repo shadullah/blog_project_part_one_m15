@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% load tailwind_filters %} {% load crispy_forms_tags
+%} {% block content %}
+<h1 class="text-2xl text-center mx-auto font-medium border-b-4 w-40">
+  Edit Your Profile
+</h1>
+
+<div class="text-center">
+  <button class="bg-orange-600 px-3 py-2 rounded-lg my-2">
+    <a href="{% url 'passchange' %}">Change password</a>
+  </button>
+</div>
+
+<div></div>
+
+<form class="mx-auto w-1/2" method="post">
+  {% csrf_token %} {% for fm in form %} {{fm.label_tag}}
+  <br />
+  {{fm}}
+  <br />
+  {{fm.errors | striptags}} {%endfor %}
+  <br />
+
+  <button class="bg-black px-3 py-2 text-white font-bold rounded-lg my-3">
+    Submit
+  </button>
+  {% if form.non_field_errors %} {% for err in form.non_field_errors %}
+  <small>{{err}}</small>
+  {% endfor %} {% endif %}
+</form>
+
+{% endblock %}

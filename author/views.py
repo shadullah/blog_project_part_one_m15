@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect
 from . import forms
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from django.contrib.auth import authenticate,login,update_session_auth_hash
+from django.contrib.auth import authenticate,login,update_session_auth_hash, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
+from posts.models import Post
 # Create your views here.
 
 def register(req):
@@ -39,6 +39,12 @@ def user_login(req):
     
 @login_required
 def profile(req):
+    data = Post.objects.filter(author = req.user)
+    return render(req, 'profile.html', {'data':data})
+
+
+@login_required
+def edit_profile(req):
     if req.method == 'POST':
         profile_form = forms.changUserInfo(req.POST ,instance=req.user)
         if profile_form.is_valid():
@@ -47,7 +53,7 @@ def profile(req):
             return redirect('profile')
     else:
         profile_form = forms.RegForm(instance=req.user)
-    return render(req, 'profile.html',{'form': profile_form})
+    return render(req, 'edit_profile.html',{'form': profile_form})
 
 
 def pass_change(req):
@@ -61,3 +67,7 @@ def pass_change(req):
     else:
         passcngForm = PasswordChangeForm(user=req.user)
     return render(req, 'pass_change.html',{'form': passcngForm})
+
+def user_logout(req):
+    logout(req)
+    return redirect('user_login')
