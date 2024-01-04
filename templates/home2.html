@@ -1,6 +1,4 @@
-{% extends "base.html" %} 
-{% block content %}
-{% load static %}
+{% extends "base.html" %} {% block content %} {% load static %}
 
 <div class="m-12 text-center flex items-center">
   <div class="w-1/2">
@@ -8,11 +6,11 @@
       Welcome to Zig Zag Blogger
     </h1>
     <p class="text-xl">
-      When you define a Django model, you're essentially creating a
-      blueprint for how data should be organized and stored in the database.
-      Model instances are created based on these models, and they represent
-      specific records in the database.For example, corresponds to a
-      specific row in the database table for blog posts.
+      When you define a Django model, you're essentially creating a blueprint
+      for how data should be organized and stored in the database. Model
+      instances are created based on these models, and they represent specific
+      records in the database.For example, corresponds to a specific row in the
+      database table for blog posts.
     </p>
   </div>
   <div class="w-1/2">
@@ -24,43 +22,49 @@
   </div>
 </div>
 
-<p class="m-2 text-center text-xl font-bold mt-5">All Categories | {{data | length}} Results Found</p>
+<p class="m-2 text-center text-xl font-bold mt-5">
+  All Categories | {{data | length}} Results Found
+</p>
 
-<div
-  class="flex items-center justify-center mx-auto my-3 rounded-lg"
->
+<div class="flex items-center justify-center mx-auto my-3 rounded-lg">
   <div class="flex items-center m-4">
-    
     {% for i in category %}
-    <a class="bg-lime-500 mx-2 px-3 py-2 rounded-lg" href="{% url 'category_wise' i.slug %}" >{{i.name}}</a>
-    
+    <a
+      class="bg-lime-500 mx-2 px-3 py-2 rounded-lg"
+      href="{% url 'category_wise' i.slug %}"
+      >{{i.name}}</a
+    >
+
     {% endfor %}
   </div>
 </div>
 
 <!-- card start here -->
 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 my-12 mx-12">
-  {% for i in data %}
+  {% for post in data %}
   <div class="rounded-lg border-2 border-lime-400 mx-5">
     <div class="p-5">
-      <a href="#">
-        <h5
-          class="mb-2 text-center text-2xl font-bold tracking-tight text-lime-600"
-        >
-          {{i.title}}
-        </h5>
-      </a>
-      <h1
-        class="mb-2 text-center text-xl font-bold italic text-gray-900"
+      <h5
+        class="mb-2 text-center text-2xl font-bold tracking-tight text-lime-600"
       >
-        Author: {{i.author.first_name}}
+        {{post.title}}
+      </h5>
+      <img class="rounded-t-lg" src="{{post.image.url}}" alt="#" />
+
+      <h1 class="mb-2 text-center text-xl font-bold italic text-gray-900">
+        Author: {{post.author.first_name}}
       </h1>
       <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-        {{i.content|slice:":200"}}
+        {{post.content|slice:":200"}}
+        <a
+          class="underline mx-3 text-cyan-500"
+          href="{% url 'details_page' post.id %}"
+          >see more</a
+        >
       </p>
-      
+
       <p>
-        Category: {% for cat in i.category.all %}
+        Category: {% for cat in post.category.all %}
         <a
           href="#"
           class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-500 m-2"

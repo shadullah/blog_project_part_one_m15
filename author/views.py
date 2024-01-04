@@ -1,10 +1,14 @@
 from django.shortcuts import render,redirect
+from django.urls import reverse_lazy
 from . import forms
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import authenticate,login,update_session_auth_hash, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from posts.models import Post
+from django.contrib.auth.views import LoginView, LogoutView
+
+
 # Create your views here.
 
 def register(req):
@@ -30,12 +34,35 @@ def user_login(req):
                 login(req, user)
                 return redirect('profile')
             else:
-                messages.warning(req, 'login information not correct')
+                messages.warning(req, 'Information not correct')
                 return redirect('register')
             
     else:
         login_form = AuthenticationForm()
         return render(req, 'register.html', {'form': login_form, 'type': 'Login'})
+    
+
+class UserLoginView(LoginView):
+    template_name = 'register.html'
+
+    def get_success_url(self):
+        return reverse_lazy('profile')
+    
+    def form_valid(self,form):
+        messages.success(self.request, 'Logged in successfully')
+        return super().form_valid(form)
+    def form_invalid(self,form):
+        messages.warning(self.request, 'Logged info incorrect')
+        return super().form_invalid(form)
+    
+    def get_context_data(data, **kwargs):
+        context =super().get_context_data(**kwargs)
+        context['type']='login'
+        return context
+    
+
+
+
     
 @login_required
 def profile(req):

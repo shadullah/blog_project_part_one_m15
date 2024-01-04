@@ -1,0 +1,36 @@
+{% extends "base.html" %} 
+{% block content %}
+
+<div>
+    <div class="max-w-[1200px] mx-auto">
+        <div class="p-5">
+          <h5
+            class="m-12 text-center text-4xl font-bold tracking-tight text-lime-600"
+          >
+            {{post.title}}
+          </h5>
+          
+          
+          <img class="rounded-t-lg mx-auto w-1/2" src="{{post.image.url}}" alt="#" />
+          <p class="m-12 font-normal text-gray-700 dark:text-gray-400 text-2xl">
+            {{post.content}}>
+          </p>
+          <h1 class="mb-2 text-center text-xl font-bold italic text-gray-900">
+            Author: {{post.author.first_name}}
+          </h1>
+          <p class="text-center">
+            Category: {% for cat in post.category.all %}
+            <a
+              href="#"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-500 m-2"
+            >
+              {{cat.name}}
+            </a>
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+</div>
+
+
+{% endblock %}
