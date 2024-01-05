@@ -66,7 +66,32 @@ class deleteClassView(DeleteView):
     pk_url_kwarg = 'id'
     success_url = reverse_lazy('profile')
 
+
+
+
 class detailsPageClass(DetailView):
     model = models.Post
     pk_url_kwarg = 'id'
     template_name = 'blog_details.html'
+
+    def post(self, req, *args, **kwargs):
+        comment_form = forms.CmntForm(data=self.request.POST)
+        post = self.get_object()
+        if comment_form.is_valid():
+            new_Cmmnt = comment_form.save(commit=False)
+            new_Cmmnt.post = post
+            new_Cmmnt.save()
+        return self.get(req, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post = self.object 
+        comments = post.comments.all()
+        comment_form = forms.CmntForm()
+
+        context['comments'] = comments
+        context['comment_form']=comment_form
+        return context
+
+
+

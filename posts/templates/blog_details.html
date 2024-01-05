@@ -1,35 +1,59 @@
 {% extends "base.html" %} 
 {% block content %}
-
+{% load crispy_forms_tags %}
 <div>
     <div class="max-w-[1200px] mx-auto">
         <div class="p-5">
           <h5
-            class="m-12 text-center text-4xl font-bold tracking-tight text-lime-600"
+            class="mt-12 mb-6 text-center text-4xl font-bold tracking-tight text-lime-600"
           >
             {{post.title}}
           </h5>
-          
+          <div class="text-center">
+            <span class="m-2 text-xl font-bold italic text-gray-900">
+                Author: {{post.author.first_name}}
+            </span>
+            <span class="">
+                Category: {% for cat in post.category.all %}
+                <a
+                  href=""
+                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-500 m-2"
+                >
+                  {{cat.name}}
+                </a>
+                {% endfor %}
+            </span>
+          </div>
           
           <img class="rounded-t-lg mx-auto w-1/2" src="{{post.image.url}}" alt="#" />
           <p class="m-12 font-normal text-gray-700 dark:text-gray-400 text-2xl">
             {{post.content}}>
           </p>
-          <h1 class="mb-2 text-center text-xl font-bold italic text-gray-900">
-            Author: {{post.author.first_name}}
-          </h1>
-          <p class="text-center">
-            Category: {% for cat in post.category.all %}
-            <a
-              href="#"
-              class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-gray-500 m-2"
-            >
-              {{cat.name}}
-            </a>
-            {% endfor %}
-          </p>
+          
         </div>
       </div>
+
+      <!-- comment div start here -->
+      <h1 class="text-center">Total comments: {{comments | length}}</h1>
+      <h1 class="text-center text-2xl font-medium mt-6">Comment here:</h1>
+      <div class="m-3">
+        {% for comment in comments %}
+        <div class="text-sm bg-gray-500 m-3 p-5 rounded-lg text-white">
+            <p><b class="mr-3">{{comment.name}}</b>{{comment.created_on}}</p>
+            <p class="text-xl">{{comment.body}}</p>
+        </div>
+        {% endfor %}
+      </div>
+      
+      <!-- comment box start here -->
+      <form class="m-5" method="post">
+        {% csrf_token %} 
+        
+        {{ comment_form |crispy }}
+        <button class="bg-black px-3 py-2 text-white font-bold rounded-lg my-3">
+          Submit
+        </button>
+      </form>
 </div>
 
 
